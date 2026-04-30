@@ -137,13 +137,13 @@ export default function ExplorePage() {
           </p>
         </div>
 
-        <section className="rounded-3xl bg-white p-6 text-[#061322] shadow-2xl shadow-black/20 sm:p-8">
+        <section className="rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/90 p-6 text-slate-100 shadow-2xl shadow-black/20 sm:p-8">
           <div className="mb-7 flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">Popular now</p>
-              <h2 className="mt-2 text-3xl font-bold">Trending Destinations</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-300">Popular now</p>
+              <h2 className="mt-2 text-3xl font-bold text-white">Trending Destinations</h2>
             </div>
-            <Link href="/create-trip" className="hidden rounded-full bg-teal-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-400 sm:inline-flex">
+            <Link href="/create-trip" className="hidden rounded-full bg-teal-500 px-5 py-2 text-sm font-semibold text-[#061322] transition hover:bg-orange-400 sm:inline-flex">
               Plan custom trip
             </Link>
           </div>
@@ -152,55 +152,55 @@ export default function ExplorePage() {
               <Link
                 key={destination.name}
                 href={cardLink(destination.query)}
-                className="group block rounded-3xl p-1 transition hover:-translate-y-1 hover:bg-teal-50"
+                className="group block rounded-3xl border border-teal-900/50 bg-[#061322]/75 p-3 transition hover:-translate-y-1 hover:border-teal-500 hover:bg-[#123044]"
               >
                 <img src={destination.image} alt={destination.name} className="h-48 w-full rounded-2xl object-cover" />
-                <h3 className="mt-5 text-center text-xl font-bold">{destination.name}</h3>
+                <h3 className="mt-5 text-center text-xl font-bold text-white">{destination.name}</h3>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl bg-[#fff4c7] p-6 text-[#061322] shadow-2xl shadow-black/20 sm:p-8">
+        <section className="mt-10 rounded-3xl border border-orange-400/30 bg-[#102433] p-6 text-slate-100 shadow-2xl shadow-black/20 sm:p-8">
           <div className="mb-8 flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-orange-600">Ranked ideas</p>
-              <h2 className="mt-2 text-3xl font-bold">Top Things To Do Worldwide</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-orange-300">Ranked ideas</p>
+              <h2 className="mt-2 text-3xl font-bold text-white">Top Things To Do Worldwide</h2>
             </div>
             <div className="hidden gap-2 sm:flex">
-              <span className="rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-teal-700">Prev</span>
-              <span className="rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-teal-700">Next</span>
+              <span className="rounded-full border border-teal-800/70 bg-[#061322]/80 px-4 py-2 text-sm font-bold text-teal-200">Prev</span>
+              <span className="rounded-full border border-teal-800/70 bg-[#061322]/80 px-4 py-2 text-sm font-bold text-teal-200">Next</span>
             </div>
           </div>
           <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-4">
             {topExperiences.map((experience) => (
-              <Link key={experience.title} href={cardLink(experience.query)} className="group block">
+              <Link key={experience.title} href={cardLink(experience.query)} className="group block rounded-3xl border border-teal-900/50 bg-[#061322]/70 p-3 transition hover:-translate-y-1 hover:border-orange-400/70">
                 <div className="relative overflow-hidden rounded-2xl">
                   <img src={experience.image} alt={experience.title} className="h-56 w-full object-cover transition duration-300 group-hover:scale-105" />
-                  <div className="absolute left-6 top-0 bg-orange-400 px-5 py-3 text-2xl font-bold text-white">{experience.rank}</div>
+                  <div className="absolute left-5 top-0 rounded-b-2xl bg-orange-400 px-5 py-3 text-2xl font-bold text-[#061322]">{experience.rank}</div>
                 </div>
-                <h3 className="mt-5 text-xl font-bold leading-snug">{experience.title}</h3>
+                <h3 className="mt-5 text-xl font-bold leading-snug text-white">{experience.title}</h3>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl bg-white p-6 text-[#061322] shadow-2xl shadow-black/20 sm:p-8">
+        <section className="mt-10 rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/90 p-6 text-slate-100 shadow-2xl shadow-black/20 sm:p-8">
           <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-700">Bookable style ideas</p>
-            <h2 className="mt-2 text-3xl font-bold">Trending Activities</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-teal-300">Bookable style ideas</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Trending Activities</h2>
           </div>
           <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
             {activities.map((activity) => (
               <Link
                 key={activity.title}
                 href={cardLink(activity.query)}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group overflow-hidden rounded-2xl border border-teal-900/60 bg-[#061322]/80 shadow-sm transition hover:-translate-y-1 hover:border-teal-500 hover:shadow-xl"
               >
                 <img src={activity.image} alt={activity.title} className="h-56 w-full object-cover transition duration-300 group-hover:scale-105" />
                 <div className="p-4">
-                  <h3 className="min-h-[56px] text-lg font-bold leading-snug text-slate-800">{activity.title}</h3>
-                  <p className="mt-4 text-sm text-slate-600">{activity.price}</p>
+                  <h3 className="min-h-[56px] text-lg font-bold leading-snug text-white">{activity.title}</h3>
+                  <p className="mt-4 text-sm text-teal-200">{activity.price}</p>
                 </div>
               </Link>
             ))}
