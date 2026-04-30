@@ -26,11 +26,11 @@ const highlights = [
 ];
 
 const routePreview = [
-  { label: "Destination", code: "PIN" },
-  { label: "Daily itinerary", code: "DAY" },
-  { label: "Budget", code: "INR" },
-  { label: "Stays", code: "BED" },
-  { label: "Mood tuning", code: "AI" },
+  { label: "Destination", icon: "pin" },
+  { label: "Daily itinerary", icon: "calendar" },
+  { label: "Budget", icon: "wallet" },
+  { label: "Stays", icon: "bed" },
+  { label: "Mood tuning", icon: "sliders" },
 ];
 const travelStickers = [
   { label: "Flight", code: "AIR", className: "left-5 top-6 rotate-[-8deg]" },
@@ -38,6 +38,66 @@ const travelStickers = [
   { label: "Stay", code: "STAY", className: "left-8 bottom-40 rotate-[5deg]" },
   { label: "Route", code: "MAP", className: "right-8 bottom-28 rotate-[-6deg]" },
 ];
+
+function PlanningIcon({ type }) {
+  const sharedProps = {
+    width: "22",
+    height: "22",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+  };
+
+  if (type === "pin") {
+    return (
+      <svg {...sharedProps}>
+        <path d="M12 21s7-5.1 7-12a7 7 0 0 0-14 0c0 6.9 7 12 7 12Z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    );
+  }
+
+  if (type === "calendar") {
+    return (
+      <svg {...sharedProps}>
+        <rect x="4" y="5" width="16" height="15" rx="2" />
+        <path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h6" />
+      </svg>
+    );
+  }
+
+  if (type === "wallet") {
+    return (
+      <svg {...sharedProps}>
+        <path d="M4 7h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h11" />
+        <path d="M16 13h5" />
+        <circle cx="17" cy="13" r="1" />
+      </svg>
+    );
+  }
+
+  if (type === "bed") {
+    return (
+      <svg {...sharedProps}>
+        <path d="M4 11V5M20 13v6M4 19v-8h10a4 4 0 0 1 4 4v4M4 15h16" />
+        <path d="M8 11h3a2 2 0 0 0 0-4H8v4Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...sharedProps}>
+      <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h10M18 18h2" />
+      <circle cx="16" cy="6" r="2" />
+      <circle cx="8" cy="12" r="2" />
+      <circle cx="16" cy="18" r="2" />
+    </svg>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -132,7 +192,7 @@ export default function HomePage() {
                 {routePreview.map((item, index) => (
                   <div key={item.label} className="relative flex gap-4 rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
                     <div className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-500 text-sm font-bold text-[#061322]">
-                      {item.code}
+                      <PlanningIcon type={item.icon} />
                     </div>
                     <div>
                       <h3 className="font-semibold text-white">{item.label}</h3>
