@@ -21,6 +21,26 @@ const inrRates = {
   CAD: 61,
 };
 
+function getBestFor(interests = []) {
+  const normalized = interests.map((interest) => interest.toLowerCase());
+
+  if (normalized.some((interest) => ["relaxation", "nature"].includes(interest))) return "Relaxation";
+  if (normalized.some((interest) => ["adventure", "nightlife"].includes(interest))) return "Adventure";
+  if (normalized.some((interest) => ["culture", "history"].includes(interest))) return "Cultural";
+  if (normalized.some((interest) => ["food", "shopping"].includes(interest))) return "Family";
+
+  return "Flexible";
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export default function TripDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -206,6 +226,104 @@ export default function TripDetailsPage() {
     }
   };
 
+  const handleDownloadPdf = () => {
+    if (!trip) return;
+
+    const printableWindow = window.open("", "_blank", "width=900,height=1200");
+    if (!printableWindow) {
+      window.print();
+      return;
+    }
+
+    const budget = trip.budgetEstimate || {};
+    const itineraryHtml = trip.itinerary
+      .map(
+        (day) => `
+          <section class="day">
+            <p class="eyebrow">Day ${escapeHtml(day.dayNumber)}</p>
+            <h2>${escapeHtml(day.title)}</h2>
+            <div class="grid">
+              ${sections
+                .map(
+                  (section) => `
+                    <article>
+                      <h3>${escapeHtml(section === "foodSuggestion" ? "Food suggestion" : section === "travelTip" ? "Local travel tip" : section)}</h3>
+                      <p>${escapeHtml(day[section])}</p>
+                    </article>
+                  `
+                )
+                .join("")}
+            </div>
+          </section>
+        `
+      )
+      .join("");
+
+    const hotelHtml = (trip.hotelSuggestions || [])
+      .map(
+        (hotel) => `
+          <article class="hotel">
+            <h3>${escapeHtml(hotel.name)}</h3>
+            <p>${escapeHtml(hotel.category)} | Rating ${escapeHtml(hotel.rating)} | ${escapeHtml(budget.currency)} ${escapeHtml(hotel.pricePerNight)}/night</p>
+            <p>${escapeHtml(hotel.reason)}</p>
+          </article>
+        `
+      )
+      .join("");
+
+    printableWindow.document.write(`
+      <!doctype html>
+      <html>
+        <head>
+          <title>${escapeHtml(trip.destination)} itinerary</title>
+          <style>
+            * { box-sizing: border-box; }
+            body { margin: 0; padding: 32px; color: #102433; font-family: Arial, sans-serif; line-height: 1.5; }
+            .cover { border-bottom: 3px solid #14b8a6; padding-bottom: 20px; margin-bottom: 28px; }
+            .brand { color: #0f766e; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+            h1 { margin: 10px 0; font-size: 34px; }
+            h2 { margin: 8px 0 14px; font-size: 22px; }
+            h3 { margin: 0 0 6px; font-size: 15px; }
+            .summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 20px; }
+            .summary div, article { border: 1px solid #cbd5e1; border-radius: 14px; padding: 12px; }
+            .label, .eyebrow { margin: 0; color: #64748b; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+            .value { margin: 5px 0 0; font-size: 16px; font-weight: 700; }
+            .day { break-inside: avoid; margin: 26px 0; }
+            .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .hotel { margin-bottom: 10px; }
+            @media print { body { padding: 20px; } .summary { grid-template-columns: repeat(2, 1fr); } .grid { grid-template-columns: 1fr; } }
+          </style>
+        </head>
+        <body>
+          <section class="cover">
+            <p class="brand">PlanMyYatra itinerary</p>
+            <h1>${escapeHtml(trip.destination)}</h1>
+            <p>${escapeHtml(trip.numberOfDays)} day${trip.numberOfDays > 1 ? "s" : ""} | ${escapeHtml(trip.budgetType)} budget | Best for ${escapeHtml(getBestFor(trip.interests))}</p>
+            <div class="summary">
+              <div><p class="label">Destination</p><p class="value">${escapeHtml(trip.destination)}</p></div>
+              <div><p class="label">Days</p><p class="value">${escapeHtml(trip.numberOfDays)}</p></div>
+              <div><p class="label">Budget</p><p class="value">${escapeHtml(trip.budgetType)}</p></div>
+              <div><p class="label">Total</p><p class="value">${escapeHtml(budget.currency)} ${escapeHtml(budget.total)}</p></div>
+              <div><p class="label">Best for</p><p class="value">${escapeHtml(getBestFor(trip.interests))}</p></div>
+            </div>
+          </section>
+          ${itineraryHtml}
+          <section class="day">
+            <p class="eyebrow">Stay options</p>
+            <h2>Hotel suggestions</h2>
+            ${hotelHtml}
+          </section>
+          <script>
+            window.onload = function () {
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printableWindow.document.close();
+  };
+
   return (
     <main className="min-h-screen bg-[#061322] text-slate-100">
       <section className="mx-auto max-w-7xl px-6 py-10 sm:px-10">
@@ -215,12 +333,23 @@ export default function TripDetailsPage() {
             <h1 className="mt-2 text-3xl font-semibold">{trip?.destination || "Trip details"}</h1>
             <p className="mt-2 text-slate-400">Review your plan, tune each day, compare costs, and refine the trip mood.</p>
           </div>
-          <Link
-            href="/dashboard"
-            className="rounded-full border border-teal-800/70 px-5 py-3 text-sm text-slate-200 transition hover:border-teal-500"
-          >
-            Back to Dashboard
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            {trip && (
+              <button
+                type="button"
+                onClick={handleDownloadPdf}
+                className="rounded-full bg-teal-500 px-5 py-3 text-sm font-semibold text-[#061322] transition hover:bg-orange-400"
+              >
+                Download Itinerary PDF
+              </button>
+            )}
+            <Link
+              href="/dashboard"
+              className="rounded-full border border-teal-800/70 px-5 py-3 text-sm text-slate-200 transition hover:border-teal-500"
+            >
+              Back to Dashboard
+            </Link>
+          </div>
         </div>
 
         {loading ? (
@@ -257,38 +386,35 @@ export default function TripDetailsPage() {
           <div className="grid gap-8 xl:grid-cols-[1.7fr,0.95fr]">
             <div className="space-y-8">
               <div className="rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 p-6">
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Destination</p>
-                    <p className="mt-2 text-xl font-semibold text-white">{trip.destination}</p>
+                <p className="text-sm uppercase tracking-[0.3em] text-teal-300">Trip summary</p>
+                <h2 className="mt-2 text-2xl font-semibold text-white">Quick overview</h2>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Destination</p>
+                    <p className="mt-2 text-lg font-semibold text-white">{trip.destination}</p>
                   </div>
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Days</p>
-                    <p className="mt-2 text-xl font-semibold text-white">{trip.numberOfDays}</p>
+                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Days</p>
+                    <p className="mt-2 text-lg font-semibold text-white">{trip.numberOfDays}</p>
                   </div>
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Budget</p>
-                    <p className="mt-2 text-xl font-semibold text-white">{trip.budgetType}</p>
+                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Budget type</p>
+                    <p className="mt-2 text-lg font-semibold text-white">{trip.budgetType}</p>
                   </div>
-                </div>
-                <div className="mt-6 grid gap-3 text-sm text-slate-300 md:grid-cols-3">
-                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">Saved privately to your account</div>
-                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">Editable itinerary sections</div>
-                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">AI regeneration and mood optimization</div>
+                  <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Total budget</p>
+                    <p className="mt-2 text-lg font-semibold text-white">{trip.budgetEstimate.currency} {trip.budgetEstimate.total}</p>
+                  </div>
+                  <div className="rounded-2xl border border-orange-400/30 bg-orange-400/5 p-4">
+                    <p className="text-xs uppercase tracking-[0.25em] text-orange-300">Best for</p>
+                    <p className="mt-2 text-lg font-semibold text-white">{getBestFor(trip.interests)}</p>
+                  </div>
                 </div>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {trip.interests.map((interest) => (
                     <span key={interest} className="rounded-full border border-teal-800/70 bg-[#061322]/80 px-3 py-1 text-xs text-slate-300">
                       {interest}
                     </span>
-                  ))}
-                </div>
-                <div className="mt-6 grid gap-3 text-sm text-slate-200 sm:grid-cols-4">
-                  {["Flight", "Train", "Stay", "Explore"].map((item) => (
-                    <div key={item} className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4 text-center">
-                      <div className="text-2xl text-orange-300">{item === "Flight" ? "✈" : item === "Train" ? "☷" : item === "Stay" ? "⌂" : "⌖"}</div>
-                      <p className="mt-2">{item}</p>
-                    </div>
                   ))}
                 </div>
               </div>

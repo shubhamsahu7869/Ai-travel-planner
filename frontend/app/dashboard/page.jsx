@@ -108,9 +108,40 @@ export default function DashboardPage() {
         ) : error ? (
           <div className="rounded-3xl border border-rose-500 bg-rose-950/10 p-8 text-rose-200">{error}</div>
         ) : trips.length === 0 ? (
-          <div className="rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 p-10 text-center text-slate-400">
-            <p className="text-lg font-semibold text-white">No trips yet</p>
-            <p className="mt-2">Start a new AI-generated trip plan to see your itinerary here.</p>
+          <div className="overflow-hidden rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 shadow-2xl shadow-black/20">
+            <div className="grid gap-0 lg:grid-cols-[0.95fr,1.05fr]">
+              <div className="relative min-h-[280px]">
+                <img
+                  src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80"
+                  alt="Open road through mountains"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#061322] via-[#061322]/25 to-transparent" />
+                <div className="absolute bottom-5 left-5 rounded-2xl border border-white/10 bg-[#061322]/75 px-4 py-3 backdrop-blur">
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-orange-300">Ready when you are</p>
+                  <p className="mt-1 text-sm text-slate-200">Your first itinerary starts here.</p>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center p-8 text-slate-300">
+                <p className="text-sm uppercase tracking-[0.3em] text-teal-300">No trips yet</p>
+                <h2 className="mt-3 text-3xl font-semibold text-white">Create your first trip plan.</h2>
+                <p className="mt-3 leading-7">
+                  Pick a destination, choose your travel style, and PlanMyYatra will build a day-by-day itinerary with budget and stay suggestions.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => router.push("/create-trip")}
+                    className="rounded-full bg-teal-500 px-6 py-3 text-sm font-semibold text-[#061322] transition hover:bg-orange-400"
+                  >
+                    Create your first trip
+                  </button>
+                  <Link href="/explore" className="rounded-full border border-teal-800/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-teal-500">
+                    Explore ideas
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="grid gap-6 lg:grid-cols-2">
