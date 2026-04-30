@@ -22,7 +22,7 @@ const client = apiKey
         defaultHeaders: aiProvider === "openrouter"
             ? {
                 "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "AI Travel Planner",
+                "X-Title": "PlanMyYatra",
             }
             : undefined,
     })

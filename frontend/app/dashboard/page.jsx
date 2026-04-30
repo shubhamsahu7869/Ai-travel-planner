@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiDelete, apiGet } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
+import { LoadingSpinner, SkeletonBlock } from "../../components/LoadingSpinner";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -65,7 +66,19 @@ export default function DashboardPage() {
         </div>
 
         {loading ? (
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-10 text-center text-slate-400">Loading trips...</div>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
+                <SkeletonBlock className="h-4 w-32" />
+                <SkeletonBlock className="mt-4 h-8 w-52" />
+                <SkeletonBlock className="mt-3 h-4 w-40" />
+                <div className="mt-6 flex gap-3">
+                  <SkeletonBlock className="h-10 w-20 rounded-full" />
+                  <SkeletonBlock className="h-10 w-24 rounded-full" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : error ? (
           <div className="rounded-3xl border border-rose-500 bg-rose-950/10 p-8 text-rose-200">{error}</div>
         ) : trips.length === 0 ? (
@@ -97,7 +110,7 @@ export default function DashboardPage() {
                     disabled={deletingId === trip._id}
                     className="rounded-full border border-rose-500 px-4 py-2 text-sm font-medium text-rose-300 transition hover:bg-rose-500/10 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {deletingId === trip._id ? "Deleting..." : "Delete"}
+                    {deletingId === trip._id ? <LoadingSpinner label="Deleting" /> : "Delete"}
                   </button>
                 </div>
               </div>

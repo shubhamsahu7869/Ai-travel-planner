@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiGet, apiPost } from "../../../lib/api";
 import { useAuth } from "../../../hooks/useAuth";
+import { LoadingSpinner, SkeletonBlock } from "../../../components/LoadingSpinner";
 
 const sections = ["morning", "afternoon", "evening", "foodSuggestion", "travelTip"];
 const moodOptions = ["Relaxed", "Packed", "Romantic", "Family Friendly", "Adventure Heavy", "Cultural"];
@@ -223,7 +224,31 @@ export default function TripDetailsPage() {
         </div>
 
         {loading ? (
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-10 text-center text-slate-400">Loading trip...</div>
+          <div className="grid gap-8 xl:grid-cols-[1.7fr,0.95fr]">
+            <div className="space-y-6">
+              {[1, 2].map((item) => (
+                <div key={item} className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
+                  <SkeletonBlock className="h-4 w-24" />
+                  <SkeletonBlock className="mt-4 h-8 w-72" />
+                  <div className="mt-6 space-y-4">
+                    <SkeletonBlock className="h-24 w-full" />
+                    <SkeletonBlock className="h-24 w-full" />
+                    <SkeletonBlock className="h-24 w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <aside className="space-y-6">
+              <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
+                <SkeletonBlock className="h-6 w-40" />
+                <SkeletonBlock className="mt-5 h-28 w-full" />
+              </div>
+              <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
+                <SkeletonBlock className="h-6 w-44" />
+                <SkeletonBlock className="mt-5 h-40 w-full" />
+              </div>
+            </aside>
+          </div>
         ) : error ? (
           <div className="rounded-3xl border border-rose-500 bg-rose-950/10 p-8 text-rose-200">{error}</div>
         ) : !trip ? (
@@ -388,7 +413,7 @@ export default function TripDetailsPage() {
                   disabled={addLoading || !addText.trim()}
                   className="mt-4 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {addLoading ? "Adding activity..." : "Add activity"}
+                  {addLoading ? <LoadingSpinner label="Adding activity" /> : "Add activity"}
                 </button>
               </div>
 
@@ -427,7 +452,7 @@ export default function TripDetailsPage() {
                   disabled={regenerateLoading || !regeneratePrompt.trim()}
                   className="mt-4 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {regenerateLoading ? "Regenerating..." : "Regenerate Day"}
+                  {regenerateLoading ? <LoadingSpinner label="Regenerating" /> : "Regenerate Day"}
                 </button>
               </div>
             </div>
@@ -461,7 +486,7 @@ export default function TripDetailsPage() {
                   disabled={moodLoading}
                   className="mt-4 rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {moodLoading ? "Optimizing..." : "Optimize Trip"}
+                  {moodLoading ? <LoadingSpinner label="Optimizing" /> : "Optimize Trip"}
                 </button>
               </div>
 

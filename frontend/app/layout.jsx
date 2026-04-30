@@ -2,7 +2,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 
 export const metadata = {
-  title: "AI Travel Planner",
+  title: "PlanMyYatra",
   description: "Plan trips with places to visit, costs, stays, and editable daily schedules.",
 };
 

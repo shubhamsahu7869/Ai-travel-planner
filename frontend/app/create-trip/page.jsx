@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiPost } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const interestsOptions = ["Food", "Culture", "Adventure", "Shopping", "Nature", "History", "Relaxation", "Nightlife"];
 
@@ -155,7 +156,7 @@ export default function CreateTripPage() {
               disabled={loading}
               className="w-full rounded-2xl bg-sky-500 px-6 py-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? "Generating itinerary, budget, and hotels..." : "Generate Trip"}
+              {loading ? <LoadingSpinner label="Generating itinerary, budget, and hotels" /> : "Generate Trip"}
             </button>
           </form>
         </div>

@@ -27,3 +27,7 @@ select {
 * {
   box-sizing: border-box;
 }
+
+::selection {
+  background: rgba(20, 184, 166, 0.35);
+}

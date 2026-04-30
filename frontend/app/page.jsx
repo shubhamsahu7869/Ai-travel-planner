@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "../components/BrandLogo";
 
 export default function HomePage() {
   return (
@@ -6,11 +7,12 @@ export default function HomePage() {
       <section className="mx-auto grid min-h-[calc(100vh-73px)] max-w-7xl items-center gap-10 px-6 py-12 sm:px-10 lg:grid-cols-[1.05fr,0.95fr]">
         <div className="space-y-7">
           <div className="inline-flex rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-sky-300">
-            AI Travel Planner
+            Smart travel planning
           </div>
           <div className="space-y-5">
+            <BrandLogo />
             <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-white sm:text-6xl">
-              AI Travel Planner for complete, editable trip itineraries.
+              PlanMyYatra crafts complete, editable trip itineraries.
             </h1>
             <p className="max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
               Turn a destination into a polished plan with places to visit, local costs, stays, and flexible day edits.

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { apiPost } from "../../lib/api";
 import { saveToken } from "../../lib/auth";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -62,7 +63,7 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full rounded-2xl bg-sky-500 px-4 py-3 font-semibold text-slate-950 transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? "Signing in..." : "Log in"}
+              {loading ? <LoadingSpinner label="Signing in" /> : "Log in"}
             </button>
           </form>
           <p className="mt-6 text-center text-sm text-slate-400">

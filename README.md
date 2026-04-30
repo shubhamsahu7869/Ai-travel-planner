@@ -1,4 +1,4 @@
-# AI Travel Planner
+# PlanMyYatra
 
 A full-stack travel planning web application for creating AI-assisted trip plans with authentication, user-specific dashboards, editable itineraries, budget estimates, and stay suggestions.
 

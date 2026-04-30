@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getToken, removeToken } from "../lib/auth";
+import BrandLogo from "./BrandLogo";
 
 export default function Navbar() {
   const router = useRouter();
@@ -16,8 +17,8 @@ export default function Navbar() {
   return (
     <header className="border-b border-slate-800 bg-slate-950/95 px-6 py-4 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-        <Link href="/" className="text-xl font-semibold text-white">
-          AI Travel Planner
+        <Link href="/" aria-label="PlanMyYatra home">
+          <BrandLogo />
         </Link>
         <nav className="flex items-center gap-3 text-sm font-medium text-slate-200">
           {token ? (

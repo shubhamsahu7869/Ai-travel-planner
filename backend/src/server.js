@@ -7,5 +7,5 @@ require("dotenv/config");
 const app_1 = __importDefault(require("./app"));
 const PORT = process.env.PORT || 4000;
 app_1.default.listen(PORT, () => {
-    console.log(`AI Travel Planner backend listening on port ${PORT}`);
+    console.log(`PlanMyYatra backend listening on port ${PORT}`);
 });
