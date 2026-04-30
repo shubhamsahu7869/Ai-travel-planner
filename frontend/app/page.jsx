@@ -25,11 +25,18 @@ const highlights = [
   "Private user dashboard",
 ];
 
-const travelModes = [
-  { icon: "✈", title: "Flights", text: "Plan arrival windows and long-distance travel." },
-  { icon: "☷", title: "Trains", text: "Balance scenic routes with practical city transfers." },
-  { icon: "⌂", title: "Stays", text: "Compare hotel choices around your daily route." },
-  { icon: "⌖", title: "Places", text: "Discover landmarks, food stops, viewpoints, and markets." },
+const routePreview = [
+  { label: "Destination", code: "PIN" },
+  { label: "Daily itinerary", code: "DAY" },
+  { label: "Budget", code: "INR" },
+  { label: "Stays", code: "BED" },
+  { label: "Mood tuning", code: "AI" },
+];
+const travelStickers = [
+  { label: "Flight", code: "AIR", className: "left-5 top-6 rotate-[-8deg]" },
+  { label: "Train", code: "RAIL", className: "right-6 top-20 rotate-[7deg]" },
+  { label: "Stay", code: "STAY", className: "left-8 bottom-40 rotate-[5deg]" },
+  { label: "Route", code: "MAP", className: "right-8 bottom-28 rotate-[-6deg]" },
 ];
 
 export default function HomePage() {
@@ -66,6 +73,17 @@ export default function HomePage() {
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#061322] via-[#061322]/55 to-[#0f766e]/10" />
+          {travelStickers.map((sticker) => (
+            <div
+              key={sticker.label}
+              className={`absolute ${sticker.className} rounded-2xl border border-white/15 bg-[#061322]/75 px-4 py-3 text-sm text-white shadow-xl shadow-black/30 backdrop-blur`}
+            >
+              <span className="mr-3 rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-bold tracking-[0.18em] text-orange-300">
+                {sticker.code}
+              </span>
+              <span className="font-medium">{sticker.label}</span>
+            </div>
+          ))}
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div className="max-w-md rounded-3xl border border-white/10 bg-[#061322]/75 p-5 backdrop-blur">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-300">Plan smarter</p>
@@ -96,25 +114,32 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10">
-        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-teal-300">Travel essentials</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Built around how trips actually move.</h2>
-          </div>
-          <p className="max-w-xl text-sm leading-6 text-slate-300">
-            PlanMyYatra brings transport, places, stays, and local experiences into one simple flow.
-          </p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {travelModes.map((mode) => (
-            <div key={mode.title} className="rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 p-5">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-500/15 text-2xl text-orange-300">
-                {mode.icon}
-              </div>
-              <h3 className="mt-5 text-lg font-semibold text-white">{mode.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{mode.text}</p>
+        <div className="rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 p-6 md:p-8">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr,1.2fr] lg:items-center">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-teal-300">Structured planning</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">A clear flow from idea to ready itinerary.</h2>
+              <p className="mt-4 leading-7 text-slate-300">
+                PlanMyYatra keeps the page calm and organized while still giving every trip the practical details it needs.
+              </p>
             </div>
-          ))}
+            <div className="relative">
+              <div className="absolute left-5 top-6 hidden h-[calc(100%-3rem)] w-px bg-teal-800/70 sm:block" />
+              <div className="space-y-4">
+                {routePreview.map((item, index) => (
+                  <div key={item.label} className="relative flex gap-4 rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <div className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-500 text-sm font-bold text-[#061322]">
+                      {item.code}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">{item.label}</h3>
+                      <p className="mt-1 text-sm text-slate-400">Step {index + 1} in the trip-building workspace.</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

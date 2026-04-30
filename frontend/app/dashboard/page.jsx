@@ -65,20 +65,28 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        <div className="mb-8 overflow-hidden rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80">
-          <div className="grid md:grid-cols-[1fr,1.4fr]">
-            <div className="p-6">
-              <p className="text-sm uppercase tracking-[0.3em] text-orange-300">Travel board</p>
-              <h2 className="mt-3 text-2xl font-semibold text-white">Flights, trains, stays, and places in one planning space.</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">Keep every saved itinerary ready to open, edit, or improve with a new mood.</p>
+        <div className="mb-8 rounded-3xl border border-teal-900/60 bg-[#0b1b2b]/80 p-6">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+              <p className="text-sm text-slate-400">
+                <span className="mr-2 rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-bold tracking-[0.18em] text-orange-300">MAP</span>
+                Saved trips
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-white">{trips.length}</p>
             </div>
-            <div className="grid grid-cols-2 gap-2 p-4 text-center text-sm text-slate-200 sm:grid-cols-4">
-              {["Flight", "Train", "Hotel", "Route"].map((item) => (
-                <div key={item} className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
-                  <div className="text-2xl text-orange-300">{item === "Flight" ? "✈" : item === "Train" ? "☷" : item === "Hotel" ? "⌂" : "⌖"}</div>
-                  <p className="mt-2">{item}</p>
-                </div>
-              ))}
+            <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+              <p className="text-sm text-slate-400">
+                <span className="mr-2 rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-bold tracking-[0.18em] text-orange-300">AIR</span>
+                Planner mode
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-white">AI assisted</p>
+            </div>
+            <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+              <p className="text-sm text-slate-400">
+                <span className="mr-2 rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-bold tracking-[0.18em] text-orange-300">GO</span>
+                Next action
+              </p>
+              <p className="mt-2 text-2xl font-semibold text-white">Create trip</p>
             </div>
           </div>
         </div>
