@@ -26,11 +26,11 @@ const highlights = [
 ];
 
 const routePreview = [
-  { label: "Destination", code: "PIN" },
-  { label: "Daily itinerary", code: "DAY" },
-  { label: "Budget", code: "INR" },
-  { label: "Stays", code: "BED" },
-  { label: "Mood tuning", code: "AI" },
+  { label: "Destination", code: "PIN", sticker: "MAP" },
+  { label: "Daily itinerary", code: "DAY", sticker: "TRIP" },
+  { label: "Budget", code: "INR", sticker: "COST" },
+  { label: "Stays", code: "BED", sticker: "ROOM" },
+  { label: "Mood tuning", code: "AI", sticker: "VIBE" },
 ];
 const travelStickers = [
   { label: "Flight", code: "AIR", className: "left-5 top-6 rotate-[-8deg]" },
@@ -130,11 +130,14 @@ export default function HomePage() {
               <div className="absolute left-5 top-6 hidden h-[calc(100%-3rem)] w-px bg-teal-800/70 sm:block" />
               <div className="space-y-4">
                 {routePreview.map((item, index) => (
-                  <div key={item.label} className="relative flex gap-4 rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                  <div key={item.label} className="relative flex gap-4 overflow-hidden rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
+                    <span className="absolute right-4 top-4 rounded-full border border-orange-400/25 bg-orange-400/10 px-2.5 py-1 text-[10px] font-bold tracking-[0.16em] text-orange-300">
+                      {item.sticker}
+                    </span>
                     <div className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-500 text-sm font-bold text-[#061322]">
                       {item.code}
                     </div>
-                    <div>
+                    <div className="pr-16">
                       <h3 className="font-semibold text-white">{item.label}</h3>
                       <p className="mt-1 text-sm text-slate-400">Step {index + 1} in the trip-building workspace.</p>
                     </div>
