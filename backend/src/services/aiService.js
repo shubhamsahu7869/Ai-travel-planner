@@ -213,17 +213,17 @@ function buildFallbackItinerary(destination, numberOfDays) {
     }
     return Array.from({ length: numberOfDays }, (_, index) => ({
         dayNumber: index + 1,
-        title: `OpenAI setup required for exact ${destination} places`,
-        morning: `Add a valid OPENAI_API_KEY with billing enabled to generate exact morning places in ${destination}`,
-        afternoon: `The local fallback only has curated exact places for Vrindavan and Manali; OpenAI is required for exact ${destination} attractions`,
+        title: `AI provider setup required for exact ${destination} places`,
+        morning: `Add a valid OPENROUTER_API_KEY to generate exact morning places in ${destination}`,
+        afternoon: `The local fallback only has curated exact places for Vrindavan and Manali; live AI is required for exact ${destination} attractions`,
         evening: `Restart the backend after updating backend/.env so ${destination} plans use live AI generation`,
-        foodSuggestion: `OpenAI will return specific ${destination} restaurants or food streets when the API call succeeds`,
-        travelTip: `Check the backend terminal for the OpenAI error if exact ${destination} places are not generated`,
+        foodSuggestion: `The AI provider will return specific ${destination} restaurants or food streets when the API call succeeds`,
+        travelTip: `Check the backend terminal for the AI provider error if exact ${destination} places are not generated`,
     }));
 }
 async function generateItinerary(input) {
     if (client) {
-        console.log("Using OpenAI itinerary generation");
+        console.log(`Using ${aiProvider} itinerary generation`);
         const prompt = `You are an expert global travel planner with knowledge of real places worldwide.
 
 Create a ${input.numberOfDays}-day itinerary for ${input.destination}.
@@ -269,10 +269,10 @@ Only output JSON.`;
             if (Array.isArray(itinerary) && itinerary.length === input.numberOfDays) {
                 return itinerary;
             }
-            console.error("OpenAI itinerary response had an unexpected shape", rawText);
+            console.error("AI itinerary response had an unexpected shape", rawText);
         }
         catch (error) {
-            console.error("OpenAI itinerary generation failed, using fallback", error);
+            console.error("AI itinerary generation failed, using fallback", error);
         }
     }
     console.log("Using mock itinerary generation");
@@ -305,7 +305,7 @@ Only output JSON.`;
             return parseAiJson(rawText);
         }
         catch (error) {
-            console.error("OpenAI budget generation failed, using fallback", error);
+            console.error("AI budget generation failed, using fallback", error);
         }
     }
     return buildFallbackBudget(input);
@@ -339,10 +339,10 @@ Return exactly 3 real hotel suggestions. Only output JSON.`;
             if (Array.isArray(hotels)) {
                 return hotels;
             }
-            console.error("OpenAI hotel response had an unexpected shape", rawText);
+            console.error("AI hotel response had an unexpected shape", rawText);
         }
         catch (error) {
-            console.error("OpenAI hotel generation failed, using fallback", error);
+            console.error("AI hotel generation failed, using fallback", error);
         }
     }
     const ratingBase = input.budgetType === "High" ? 4.7 : input.budgetType === "Low" ? 3.8 : 4.2;
@@ -353,7 +353,7 @@ Return exactly 3 real hotel suggestions. Only output JSON.`;
             category: input.budgetType === "Low" ? "Budget" : input.budgetType === "High" ? "Luxury" : "Comfort",
             pricePerNight: safeNumber(priceBase),
             rating: safeNumber(ratingBase),
-            reason: `OpenAI is required for verified hotel names; this is a local fallback suggestion.`,
+            reason: `Live AI is required for verified hotel names; this is a local fallback suggestion.`,
         },
         {
             name: `${input.destination} Heritage Inn`,
@@ -406,7 +406,7 @@ Only output JSON.`;
             return input.itinerary.map((day) => (day.dayNumber === input.dayNumber ? regenerated : day));
         }
         catch (error) {
-            console.error("OpenAI day regeneration failed, using fallback", error);
+            console.error("AI day regeneration failed, using fallback", error);
         }
     }
     const regeneratedDay = {
@@ -451,7 +451,7 @@ Only output JSON.`;
             }
         }
         catch (error) {
-            console.error("OpenAI mood optimization failed, using fallback", error);
+            console.error("AI mood optimization failed, using fallback", error);
         }
     }
     return input.itinerary.map((day) => ({
