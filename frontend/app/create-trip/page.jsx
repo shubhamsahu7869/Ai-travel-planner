@@ -7,13 +7,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const interestsOptions = ["Food", "Culture", "Adventure", "Shopping", "Nature", "History", "Relaxation", "Nightlife"];
-const routeSteps = [
-  { label: "Home", code: "START" },
-  { label: "Flight / Train", code: "MOVE" },
-  { label: "Hotel", code: "STAY" },
-  { label: "Places", code: "VISIT" },
-  { label: "Memories", code: "DONE" },
-];
 
 export default function CreateTripPage() {
   const router = useRouter();
@@ -92,28 +85,6 @@ export default function CreateTripPage() {
             </div>
             <div className="rounded-2xl border border-teal-900/60 bg-[#061322]/80 p-4">
               Get stay options that match your travel style.
-            </div>
-          </div>
-
-          <div className="mb-7 rounded-3xl border border-teal-900/60 bg-[#061322]/80 p-5">
-            <div className="grid gap-4 md:grid-cols-[0.8fr,1.2fr] md:items-center">
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-orange-300">Route preview</p>
-                <h2 className="mt-2 text-xl font-semibold text-white">Choose the destination. We shape the journey.</h2>
-              </div>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200">
-                {routeSteps.map((item, index) => (
-                  <div key={item.label} className="flex items-center gap-3">
-                    <span className="rounded-full border border-teal-800/70 bg-[#0b1b2b] px-3 py-2">
-                      <span className="mr-2 rounded-full bg-orange-400/15 px-2 py-1 text-[10px] font-bold tracking-[0.18em] text-orange-300">
-                        {item.code}
-                      </span>
-                      {item.label}
-                    </span>
-                    {index < routeSteps.length - 1 && <span className="text-teal-500">to</span>}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
 
